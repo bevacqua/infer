@@ -29,4 +29,4 @@ infer('carlos@gmail.com', 'you');
 
 MIT
 
-[1]: http://bevacqua.github.io/infer/
+[1]: http://bevacqua.github.io/infer
