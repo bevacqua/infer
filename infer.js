@@ -31,7 +31,7 @@ function first (text, exactOnly) {
   return partial;
 }
 
-function exactFromParts (parts) {
+function extractFromParts (parts) {
   var i = 0, len = parts.length;
   var longest = '';
   var current;
@@ -67,7 +67,7 @@ function infer (input, placeholder) {
   }
   var parts = local.split('.');
   if (parts.length > 1) {
-    return exactFromParts(parts) || beforeLabel;
+    return extractFromParts(parts) || beforeLabel;
   }
 
   var match = first(beforeLabel);
