@@ -10,7 +10,7 @@ module.exports = function (input, placeholder) {
   if (!valid) {
     return placeholder;
   }
-	var local = email.split('@')[0];
+  var local = email.split('@')[0];
   if (!local) {
     return placeholder;
   }
