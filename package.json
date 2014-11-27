@@ -1,0 +1,32 @@
+{
+  "name": "infer",
+  "version": "1.0.0",
+  "description": "Infer a name from an email address",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "tape test/*"
+  },
+  "bin": {
+    "infer": "bin/infer"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bevacqua/infer.git"
+  },
+  "author": "Nicolas Bevacqua <nicolasbevacqua@gmail.com> (http://bevacqua.io/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bevacqua/infer/issues"
+  },
+  "homepage": "https://github.com/bevacqua/infer",
+  "devDependencies": {
+    "tape": "^3.0.3"
+  },
+  "dependencies": {
+    "get-stdin": "^3.0.2",
+    "validator": "^3.22.1"
+  }
+}

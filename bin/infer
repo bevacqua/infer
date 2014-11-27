@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+
+var stdin = require('get-stdin');
+var infer = require('..');
+
+if (process.stdin.isTTY) {
+  args();
+} else {
+  stdin(print);
+}
+
+function args () {
+  var email = process.argv[2];
+  print(email);
+}
+
+function print (email) {
+  console.log(infer(email));
+}
