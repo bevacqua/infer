@@ -2,6 +2,7 @@
 
 > Infer a name from an email address
 
+A demo is available at [bevacqua.github.io/infer][1]
 # Install
 
 ```shell
@@ -17,11 +18,15 @@ infer carlos@gmail.com
 
 # API
 
+The API exposes a single `expose(email, placeholder)` method. The placeholder is used if the name cannot be inferred.
+
 ```shell
-infer('carlos@gmail.com');
+infer('carlos@gmail.com', 'you');
 // <- carlos
 ```
 
 # License
 
 MIT
+
+[1]: bevacqua.github.io/infer

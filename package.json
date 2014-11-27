@@ -2,12 +2,18 @@
   "name": "infer",
   "version": "1.0.0",
   "description": "Infer a name from an email address",
-  "main": "index.js",
+  "main": "infer.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "tape test/*"
+    "test": "tape test/*",
+    "build": "browserify -o bundle.js -s infer ."
+  },
+  "browserify": {
+    "transform": [
+      "brfs"
+    ]
   },
   "bin": {
     "infer": "bin/infer"
@@ -23,9 +29,11 @@
   },
   "homepage": "https://github.com/bevacqua/infer",
   "devDependencies": {
+    "browserify": "^6.3.3",
     "tape": "^3.0.3"
   },
   "dependencies": {
+    "brfs": "^1.2.0",
     "get-stdin": "^3.0.2",
     "validator": "^3.22.1"
   }

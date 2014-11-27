@@ -2,38 +2,12 @@
 
 var fs = require('fs');
 var validator = require('validator');
-var everyone = (read('./data/names.txt') + read('./data/nombres.txt')).split('\n');
+var everyone = (
+  fs.readFileSync('./data/names.txt', 'utf8') +
+  fs.readFileSync('./data/nombres.txt', 'utf8')
+).split('\n');
 
-module.exports = function (input, placeholder) {
-  var email = String(input);
-  var valid = validator.isEmail(email);
-  if (!valid) {
-    return placeholder;
-  }
-  var local = email.split('@')[0];
-  if (!local) {
-    return placeholder;
-  }
-  var beforeLabel = local.split('+')[0];
-  if (!beforeLabel) {
-    return placeholder;
-  }
-  var parts = local.split('.');
-  if (parts.length > 1) {
-    return exactFromParts(parts) || beforeLabel;
-  }
-
-  var match = first(beforeLabel);
-  var idx = beforeLabel.indexOf(match);
-  if (match && idx === 0 || idx + match.length === beforeLabel.length) {
-    return match;
-  }
-  return beforeLabel;
-};
-
-function read (file) {
-  return fs.readFileSync(file, 'utf8');
-}
+module.exports = infer;
 
 function first (text, exactOnly) {
   var exact = everyone.indexOf(text);
@@ -74,4 +48,32 @@ function exactFromParts (parts) {
 
 function isEmail (text) {
   return email.test(text);
+}
+
+function infer (input, placeholder) {
+  var p = placeholder || 'you';
+  var email = String(input);
+  var valid = validator.isEmail(email);
+  if (!valid) {
+    return p;
+  }
+  var local = email.split('@')[0];
+  if (!local) {
+    return p;
+  }
+  var beforeLabel = local.split('+')[0];
+  if (!beforeLabel) {
+    return p;
+  }
+  var parts = local.split('.');
+  if (parts.length > 1) {
+    return exactFromParts(parts) || beforeLabel;
+  }
+
+  var match = first(beforeLabel);
+  var idx = beforeLabel.indexOf(match);
+  if (match && idx === 0 || idx + match.length === beforeLabel.length) {
+    return match;
+  }
+  return beforeLabel;
 }
