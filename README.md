@@ -13,16 +13,44 @@ npm install -S infer
 
 ```shell
 infer carlos@gmail.com
-> carlos
+> 'carlos'
 ```
 
 # API
 
-The API exposes a single `expose(email, placeholder)` method. The placeholder is used if the name cannot be inferred.
+The API exposes a single `expose(email, placeholder?, strict?)` method. The placeholder is used if the name cannot be inferred.
 
 ```shell
 infer('carlos@gmail.com', 'you');
-// <- carlos
+// <- 'carlos'
+```
+
+The return value is a name when it matches completely with some part of the email address.
+
+```js
+infer('nicolas_bevacqua+spam@gmail.com', 'you');
+// <- 'nicolas'
+```
+
+If no name is matched, the full local part of the address is returned.
+
+```js
+infer('abudabi+junk@gmail.com');
+// <- 'abudabi'
+```
+
+If the input wasn't even a valid email address, the `placeholder` is returned.
+
+```js
+infer('abudabi');
+// <- 'you'
+```
+
+If the input didn't match up with a name and `strict` is truthy, the `placeholder` is returned as well.
+
+```js
+infer('abudabi@gmail.com', 'foo', true);
+// <- 'foo'
 ```
 
 # License

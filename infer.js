@@ -6,29 +6,15 @@ var everyone = (
   fs.readFileSync('./data/names.txt', 'utf8') +
   fs.readFileSync('./data/nombres.txt', 'utf8')
 ).split('\n');
+var separators = /[._-]/g;
 
 module.exports = infer;
 
-function first (text, exactOnly) {
+function first (text) {
   var exact = everyone.indexOf(text);
   if (exact !== -1) {
     return everyone[exact];
   }
-  if (exactOnly) {
-    return;
-  }
-  var i = 0, len = everyone.length;
-  var partial = '';
-  var current;
-
-  for (; i < len; i++) {
-    current = everyone[i];
-    if (text.indexOf(current) !== -1 && current.length > partial.length) {
-      partial = current;
-    }
-  }
-
-  return partial;
 }
 
 function extractFromParts (parts) {
@@ -36,21 +22,21 @@ function extractFromParts (parts) {
   var longest = '';
   var current;
   for (; i < len; i++) {
-    current = first(parts[i], true);
+    current = first(parts[i]);
     if (current) {
-      return current;
+      return { result: current, matched: true };
     } else if (parts[i].length > longest.length) {
       longest = parts[i];
     }
   }
-  return longest;
+  return { result: longest };
 }
 
 function isEmail (text) {
   return email.test(text);
 }
 
-function infer (input, placeholder) {
+function infer (input, placeholder, strict) {
   var p = placeholder || 'you';
   var email = String(input);
   var valid = validator.isEmail(email);
@@ -65,15 +51,16 @@ function infer (input, placeholder) {
   if (!beforeLabel) {
     return p;
   }
-  var parts = local.split('.');
+  var exact;
+  var parts = beforeLabel.split(separators);
   if (parts.length > 1) {
-    return extractFromParts(parts) || beforeLabel;
+    exact = exactFromParts(parts);
+    return exact.matched ? exact.result : (strict ? p : exact.result || placeholder);
   }
 
   var match = first(beforeLabel);
-  var idx = beforeLabel.indexOf(match);
-  if (match && idx === 0 || idx + match.length === beforeLabel.length) {
+  if (match) {console.log(match);
     return match;
   }
-  return beforeLabel;
+  return strict ? p : beforeLabel;
 }
